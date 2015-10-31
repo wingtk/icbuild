@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Project xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:foaf="http://xmlns.com/foaf/0.1/"
+         xmlns:gnome="http://api.gnome.org/doap-extensions#"
+         xmlns="http://usefulinc.com/ns/doap#">
+  <name>ICBuild</name>
+  <shortname>icbuild</shortname>
+  <shortdesc>Tool to build GNOME software on Windows with Visual Studio</shortdesc>
+  <description>
+    ICBuild is a tool used to build GNOME software on Windows from the
+    source repositories using Visual Studio.
+  </description>
+
+  <homepage rdf:resource="https://wiki.gnome.org/Projects/ICBuild"/>
+  <download-page rdf:resource="http://download.gnome.org/sources/icbuild/"/>
+  <bug-database rdf:resource="https://bugzilla.gnome.org/enter_bug.cgi?product=icbuild"/>
+  <license rdf:resource="http://usefulinc.com/doap/licenses/lgpl"/>
+
+  <programming-language>Python</programming-language>
+
+  <category rdf:resource="http://api.gnome.org/doap-extensions#development"/>
+
+  <maintainer>
+    <foaf:Person>
+      <foaf:name>Ignacio Casal Quinteiro</foaf:name>
+      <foaf:mbox rdf:resource="mailto:icq@gnome.org"/>
+      <gnome:userid>icq</gnome:userid>
+    </foaf:Person>
+  </maintainer>
+
+</Project>

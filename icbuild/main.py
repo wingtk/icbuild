@@ -1,0 +1,152 @@
+# icbuild - a tool to ease building collections of source packages
+# Copyright (C) 2001-2006  James Henstridge
+# Copyright (C) 2015  Ignacio Casal Quinteiro
+#
+#   main.py: parses command line arguments and starts the build
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+import sys, os, errno
+import optparse
+import traceback
+import logging
+
+import builtins
+
+import icbuild.config
+import icbuild.commands
+from icbuild.errors import UsageError, FatalError
+from icbuild.utils.cmds import get_output
+from icbuild.moduleset import warn_local_modulesets
+
+import locale
+
+try:
+    _encoding = locale.getpreferredencoding()
+    assert _encoding
+except (locale.Error, AssertionError):
+    _encoding = 'ascii'
+
+def uencode(s):
+    return s
+
+def udecode(s):
+    return s
+
+def uprint(*args):
+    '''Print Unicode string encoded for the terminal'''
+    for s in args[:-1]:
+        print(uencode(s)),
+    s = args[-1]
+    print(uencode(s))
+
+builtins.__dict__['uprint'] = uprint
+builtins.__dict__['uencode'] = uencode
+builtins.__dict__['udecode'] = udecode
+
+class LoggingFormatter(logging.Formatter):
+    def __init__(self):
+        logging.Formatter.__init__(self, '%(level_name_initial)s: %(message)s')
+
+    def format(self, record):
+        record.level_name_initial = record.levelname[0]
+        return logging.Formatter.format(self, record)
+
+def print_help(parser):
+    parser.print_help()
+    print
+    icbuild.commands.print_help()
+    parser.exit()
+
+def main(args):
+    if hasattr(os, 'getuid') and os.getuid() == 0:
+        sys.stderr.write('You should not run icbuild as root.\n').encode(_encoding, 'replace')
+        sys.exit(1)
+
+    logging.getLogger().setLevel(logging.INFO)
+    logging_handler = logging.StreamHandler()
+    logging_handler.setFormatter(LoggingFormatter())
+    logging.getLogger().addHandler(logging_handler)
+    parser = optparse.OptionParser(
+        usage='%prog [ -f config ] command [ options ... ]',
+        add_help_option=False,
+        description='Build a set of modules from diverse repositories in correct dependency order (such as GNOME).')
+    parser.disable_interspersed_args()
+
+    parser.add_option('-h', '--help', action='callback',
+                      callback=lambda *args: print_help(parser),
+                      help="Display this help and exit")
+    parser.add_option('--help-commands', action='callback',
+                      callback=lambda *args: print_help(parser),
+                      help=optparse.SUPPRESS_HELP)
+    parser.add_option('-f', '--file', action='store', metavar='CONFIG',
+                      type='string', dest='configfile',
+                      default=os.environ.get("JHWINRC"),
+                      help='use a non default configuration file')
+    parser.add_option('-m', '--moduleset', action='store', metavar='URI',
+                      type='string', dest='moduleset', default=None,
+                      help='use a non default module set')
+    parser.add_option('--no-interact', action='store_true',
+                      dest='nointeract', default=False,
+                      help='do not prompt for input')
+    parser.add_option('--exit-on-error', action='store_true',
+                      dest='exit_on_error', default=False,
+                      help='exit immediately when the build fails')
+    parser.add_option('--conditions', action='append',
+                      dest='conditions', default=[],
+                      help='modify the condition set')
+
+    options, args = parser.parse_args(args)
+
+    try:
+        config = icbuild.config.Config(options.configfile, options.conditions)
+    except FatalError as exc:
+        sys.stderr.write('icbuild: %s\n' % exc.args[0].encode(_encoding, 'replace'))
+        sys.exit(1)
+
+    if options.moduleset: config.moduleset = options.moduleset
+    if options.nointeract: config.interact = False
+    if options.exit_on_error: config.exit_on_error = True
+
+    if not args or args[0][0] == '-':
+        command = 'build' # default to cvs update + compile
+    else:
+        command = args[0]
+        args = args[1:]
+
+    warn_local_modulesets(config)
+
+    try:
+        rc = icbuild.commands.run(command, config, args, help=lambda: print_help(parser))
+    except UsageError as exc:
+        sys.stderr.write('icbuild %s: %s\n' % (command, exc.args[0].encode(_encoding, 'replace')))
+        parser.print_usage()
+        sys.exit(1)
+    except FatalError as exc:
+        sys.stderr.write('icbuild %s: %s\n' % (command, exc.args[0].encode(_encoding, 'replace')))
+        sys.exit(1)
+    except KeyboardInterrupt:
+        uprint('Interrupted')
+        sys.exit(1)
+    except EOFError:
+        uprint('EOF')
+        sys.exit(1)
+    except IOError as e:
+        if e.errno != errno.EPIPE:
+            raise
+        sys.exit(0)
+    if rc:
+        sys.exit(rc)
+

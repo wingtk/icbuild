@@ -1,0 +1,123 @@
+# -*- mode: python -*-
+# This file holds the default values for the ~/.config/icbuildrc file.
+# Do not copy this to ~/.config/icbuildrc
+
+import os, sys, tempfile
+
+# module directory
+modulesets_dir = os.path.join(SRCDIR, 'modulesets')
+
+# what modules to build?
+moduleset = 'default'
+modules = [ 'meta-default' ]
+
+# policy for modules to build, options are:
+#  - all: build everything requested
+#  - updated: build only modules that have changed
+#  - updated-deps: build modules that have changed, or their dependencies
+#    have changed.
+build_policy = 'updated-deps'
+
+# If True, ignore tarball modules already installed while building
+partial_build = True
+
+# Skip modules installed more recently than the specified relative time.
+# min_age can only be specified via the command-line. Setting min_age within
+# the configuration file has no effect.
+min_age = None
+
+# modules to skip during dependency expansion
+skip = []
+# tags used as module filters
+tags = []
+
+# directories
+prefix = '~/icbuild/install'
+
+top_builddir = '_icbuild'  # If a relative path, prefix will be prepended
+
+checkoutroot = '~/icbuild/checkout/'
+
+xdg_cache_home = os.environ.get('XDG_CACHE_HOME',
+                                os.path.join(os.path.expanduser('~'),
+                                             '.cache'))
+tarballdir = os.path.join(xdg_cache_home, 'icbuild', 'downloads')
+
+buildroot = None     # if set, packages will be built with srcdir!=builddir
+
+# When using srcdir!=builddir builds, this key allows you to use a
+# different builddir name.  Some people like this because it reduces
+# the chance of mixing the two up.  In the pattern, '%s' will be
+# substituted with the srcdir base component.
+builddir_pattern = '%s'
+
+## @jobs: This value will be used as "X" in "make -jX" for modules
+## which support parallel builds.  Note that if you set "makeargs"
+## to include a -j option, that will take precedence.
+try:
+    import multiprocessing
+    jobs = multiprocessing.cpu_count() + 1
+except ImportError:
+    try:
+        jobs = os.sysconf('SC_NPROCESSORS_ONLN') + 1
+    except (OSError, AttributeError, ValueError):
+        jobs = 2
+
+# override environment variables, command line arguments, etc
+cmakeargs = ''
+makeargs = ''
+
+# override cvs roots, branch tags, etc
+repos = {}
+branches = {}
+module_autogenargs = {}
+module_cmakeargs = {}
+module_makeargs = {}
+module_extra_env = {}
+module_makecheck = {}
+
+# control parts of the build process
+nonetwork     = False  # never touch the network
+nobuild       = False  # don't actually build the packages
+noinstall     = False  # don't install the packages
+
+build_targets = ['install','test']
+
+interact      = True   # whether to interact with the user.
+exit_on_error = False  # whether to immediately exit when a build fails, most useful for noninteractive mode
+quiet_mode    = False  # whether to display running commands output
+progress_bar  = True   # whether to display a progress bar when running in quiet mode
+
+# checkout modes. For VCS directories, it specifies how the checkout
+# is done. We can also specify checkout modes for specific modules
+checkout_mode = 'update'
+module_checkout_mode = {}
+
+# in case we use the copy checkout mode, we can set up a copy dir. Defaults to
+# checkout dir
+copy_dir = None
+
+# attempt to detect the system library path
+extra_prefixes = []
+
+# default buildscript.  You should probably leave this as the default.
+# In particular, don't set it to 'gtk'.
+buildscript = 'terminal'
+
+# sticky date to perform historic checkouts
+sticky_date = None
+
+# whether to use a local copy of modulesets (instead of fetching them from svn)
+use_local_modulesets = True
+
+# whether to ignore soft dependencies
+ignore_suggests = False
+
+# A string displayed before ICBuild executes a command. String may contain the
+# variables %(command)s, %(cwd)s
+print_command_pattern = '%(command)s'
+
+# A tuple of website name and URL. This is displayed in tinderbox output. URL
+# String may contain the variable %(module)s
+help_website = ('Gnome Live!',
+                'http://live.gnome.org/IcbuildIssues/%(module)s')

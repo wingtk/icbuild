@@ -1,0 +1,129 @@
+<?xml version="1.0" standalone="no"?> <!--*- mode: nxml -*-->
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<moduleset>
+  <repository type="tarball" name="cairo" href="http://www.cairographics.org/releases/"/>
+  <repository type="tarball" name="gnome-http" href="http://download.gnome.org/sources/"/>
+  <repository type="tarball" name="hexchat" href="http://dl.hexchat.net/gtk-win32/src/"/>
+  <repository type="tarball" name="fontconfig" href="http://fontconfig.org/release/"/>
+
+  <msvc id="atk">
+    <branch repo="gnome-http"
+            module="atk/2.18/atk-2.18.0.tar.xz" version="2.18.0"
+            hash="sha256:ce6c48d77bf951083029d5a396dd552d836fff3c1715d3a7022e917e46d0c92b">
+    </branch>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </msvc>
+
+  <msvc id="cairo">
+    <branch repo="cairo"
+            module="cairo-1.14.2.tar.xz" version="1.14.2"
+            hash="sha256:c919d999ddb1bbbecd4bbe65299ca2abd2079c7e13d224577895afa7005ecceb">
+    </branch>
+    <dependencies>
+      <dep package="fontconfig"/>
+      <dep package="pixman"/>
+      <dep package="glib"/>
+    </dependencies>
+  </msvc>
+
+  <msvc id="enchant">
+    <branch repo="hexchat"
+            module="enchant-1.6.0.tar.gz" version="1.6.0"
+            hash="sha256:2fac9e7be7e9424b2c5570d8affe568db39f7572c10ed48d4e13cddf03f7097f">
+    </branch>
+    <dependencies>
+      <dep package="glib"/>
+    </dependencies>
+  </msvc>
+
+  <msvc id="fontconfig">
+    <branch repo="fontconfig"
+            module="fontconfig-2.11.1.tar.gz" version="2.11.1"
+            hash="sha256:b6b066c7dce3f436fdc0dfbae9d36122b38094f4f53bd8dffd45e195b0540d8d">
+    </branch>
+    <dependencies>
+      <dep package="freetype"/>
+      <dep package="libxml2"/>
+    </dependencies>
+  </msvc>
+
+  <msvc id="freetype">
+    <branch repo="hexchat"
+            module="freetype-2.6.tar.bz2" version="2.6"
+            hash="sha256:8469fb8124764f85029cc8247c31e132a2c5e51084ddce2a44ea32ee4ae8347e">
+    </branch>
+  </msvc>
+
+  <msvc id="gdk-pixbuf">
+    <branch repo="gnome-http"
+            module="gdk-pixbuf/2.32/gdk-pixbuf-2.32.1.tar.xz" version="2.32.1"
+            hash="sha256:4432b74f25538c7d6bcb3ca51adabdd666168955f25812a2568dc9637697f3bc">
+    </branch>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libpng"/>
+    </dependencies>
+  </msvc>
+
+  <msvc id="gettext-runtime">
+    <branch repo="hexchat"
+            module="gettext-vc100-0.18-src.tar.bz2" version="0.18"
+            hash="sha256:e209574d74422f573e7752037ceb29065e49a7486fb57d34958605f5bc990c6b">
+    </branch>
+    <dependencies>
+      <dep package="win-iconv"/>
+    </dependencies>
+  </msvc>
+
+  <msvc id="glib">
+    <branch repo="gnome-http"
+            module="glib/2.46/glib-2.46.1.tar.xz" version="2.46.1"
+            hash="sha256:5a1f03b952ebc3a7e9f612b8724f70898183e31503db329b4f15d07163c8fdfb">
+    </branch>
+    <dependencies>
+      <dep package="gettext-runtime"/>
+      <dep package="libffi"/>
+      <dep package="zlib"/>
+    </dependencies>
+  </msvc>
+
+  <msvc id="gtk+">
+    <branch repo="gnome-http"
+            module="gtk+/3.18/gtk+-3.18.2.tar.xz" version="3.18.2"
+            hash="sha256:5dbec561c4a00070073bf9cf4cfdd61fab4a14c8ff5b15d700bd378f8185e152">
+    </branch>
+    <dependencies>
+      <dep package="atk"/>
+      <dep package="gdk-pixbuf"/>
+      <dep package="libepoxy"/>
+      <dep package="pango"/>
+    </dependencies>
+  </msvc>
+
+  <msvc id="harfbuzz">
+    <branch repo="hexchat"
+            module="harfbuzz-0.9.41.tar.bz2" version="0.9.41"
+            hash="sha256:d81aa53d0c02b437beeaac159d7fc16394d676bbce0860fb6f6a10b587dc057c">
+    </branch>
+    <dependencies>
+      <dep package="freetype"/>
+      <dep package="glib"/>
+    </dependencies>
+  </msvc>
+
+  <msvc id="win-iconv">
+    <branch repo="hexchat"
+            module="win-iconv-0.0.6.tar.bz2" version="0.0.6"
+            hash="sha256:b54da6cb14f6930fa8bbf3bee4225e842fd6dc0b2377081f1a809ec1ab761aac">
+    </branch>
+  </msvc>
+
+  <metamodule id="meta-default">
+    <dependencies>
+      <dep package="xz"/>
+    </dependencies>
+  </metamodule>
+
+</moduleset>
