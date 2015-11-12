@@ -130,12 +130,8 @@ class TerminalBuildScript(buildscript.BuildScript):
                                       'key' : e})
 
         kws['stdin'] = subprocess.PIPE
-        if hint in ('cvs', 'svn', 'hg-update.py'):
-            kws['stdout'] = subprocess.PIPE
-            kws['stderr'] = subprocess.STDOUT
-        else:
-            kws['stdout'] = None
-            kws['stderr'] = None
+        kws['stdout'] = None
+        kws['stderr'] = None
 
         if self.config.quiet_mode:
             kws['stdout'] = subprocess.PIPE
@@ -156,36 +152,7 @@ class TerminalBuildScript(buildscript.BuildScript):
             raise CommandError(str(e))
 
         output = []
-        if hint in ('cvs', 'svn', 'hg-update.py'):
-            conflicts = []
-            def format_line(line, error_output, conflicts = conflicts, output = output):
-                if line.startswith('C '):
-                    conflicts.append(line)
-
-                if self.config.quiet_mode:
-                    output.append(line)
-                    return
-
-                if line[-1] == '\n': line = line[:-1]
-
-                if line.startswith('C '):
-                    print('%s%s%s' % (t_colour[12], line, t_reset))
-                elif line.startswith('M '):
-                    print('%s%s%s' % (t_colour[10], line, t_reset))
-                elif line.startswith('? '):
-                    print('%s%s%s' % (t_colour[8], line, t_reset))
-                else:
-                    print(line)
-
-            cmds.pprint_output(p, format_line)
-            if conflicts:
-                uprint('\nConflicts during checkout:\n')
-                for line in conflicts:
-                    sys.stdout.write('%s  %s%s\n'
-                                     % (t_colour[12], line, t_reset))
-                # make sure conflicts fail
-                if p.returncode == 0 and hint == 'cvs': p.returncode = 1
-        elif self.config.quiet_mode:
+        if self.config.quiet_mode:
             def format_line(line, error_output, output = output):
                 output.append(line)
             cmds.pprint_output(p, format_line)
