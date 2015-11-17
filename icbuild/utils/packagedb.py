@@ -68,7 +68,7 @@ class PackageEntry:
             return
         self._manifest = [x.strip() for x in value if not '\n' in value]
         if len(self._manifest) != len(value):
-            logging.error(_('package %s has files with embedded new lines') % self.package)
+            logging.error('package %s has files with embedded new lines' % self.package)
 
     manifest = property(get_manifest, set_manifest)
 
@@ -208,7 +208,7 @@ class PackageDB:
             raise KeyError
 
         if entry.manifest is None:
-            logging.error(_("no manifest for '%s', can't uninstall.  Try building again, then uninstalling.") % (package_name,))
+            logging.error("no manifest for '%s', can't uninstall.  Try building again, then uninstalling." % (package_name,))
             return
 
         # Skip files that aren't in the prefix; otherwise we
@@ -221,11 +221,11 @@ class PackageDB:
         # reference-counting directories.
         for (path, was_deleted, error_string) in fileutils.remove_files_and_dirs(to_delete, allow_nonempty_dirs=True):
             if was_deleted:
-                logging.info(_("Deleted: %(file)r") % {'file': path})
+                logging.info("Deleted: %(file)r" % {'file': path})
             elif error_string is None:
                 pass
             else:
-                logging.warn(_("Failed to delete %(file)r: %(msg)s") % { 'file': path,
-                                                                         'msg': error_string})
+                logging.warn("Failed to delete %(file)r: %(msg)s" % { 'file': path,
+                                                                      'msg': error_string})
 
         entry.remove()
