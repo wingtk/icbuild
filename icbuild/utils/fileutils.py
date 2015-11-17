@@ -106,11 +106,6 @@ def _windows_rename(src, dst):
         os.unlink(dst)
         os.rename(src, dst)
 
-if os.name == 'nt':
-    rename = _windows_rename
-else:
-    rename = os.rename
-
 def ensure_unlinked(filename):
     try:
         os.unlink(filename)
@@ -139,7 +134,7 @@ class SafeWriter(object):
             os.fsync(self.fp.fileno())
         self.fp.close()
 
-        rename(self.tmpname, self.filename)
+        _windows_rename(self.tmpname, self.filename)
 
     def abandon(self):
         self.fp.close()
