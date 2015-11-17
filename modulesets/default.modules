@@ -120,6 +120,16 @@
     </branch>
   </msvc>
 
+  <msvc id="libpng">
+    <branch repo="hexchat"
+            module="libpng-1.6.17.tar.xz" version="1.6.17"
+            hash="sha256:98507b55fbe5cd43c51981f2924e4671fd81fe35d52dc53357e20f2c77fa5dfd">
+    </branch>
+    <dependencies>
+      <dep package="zlib"/>
+    </dependencies>
+  </msvc>
+
   <msvc id="win-iconv">
     <branch repo="hexchat"
             module="win-iconv-0.0.6.tar.bz2" version="0.0.6"
