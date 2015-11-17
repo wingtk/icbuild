@@ -248,54 +248,18 @@ class Config:
             options = self.cmdline_options
         else:
             self.cmdline_options = options
-        if hasattr(options, 'autogen') and options.autogen:
-            self.alwaysautogen = True
-        if hasattr(options, 'check') and (
-                options.check and not 'check' in self.build_targets):
-            self.build_targets.insert(0, 'check')
         if hasattr(options, 'clean') and (
                 options.clean and not 'clean' in self.build_targets):
             self.build_targets.insert(0, 'clean')
-        if hasattr(options, 'distclean') and (
-                options.distclean and not 'distclean' in self.build_targets):
-            self.build_targets.insert(0, 'distclean')
-        if hasattr(options, 'dist') and (
-                options.dist and not 'dist' in self.build_targets):
-            self.build_targets.append('dist')
-        if hasattr(options, 'distcheck') and (
-                options.distcheck and not 'distcheck' in self.build_targets):
-            self.build_targets.append('distcheck')
-        if hasattr(options, 'ignore_suggests') and options.ignore_suggests:
-            self.ignore_suggests = True
         if hasattr(options, 'nonetwork') and options.nonetwork:
             self.nonetwork = True
         if hasattr(options, 'skip'):
             for item in options.skip:
                 self.skip += item.split(',')
-        if hasattr(options, 'tags'):
-            for item in options.tags:
-                self.tags += item.split(',')
-        if hasattr(options, 'sticky_date') and options.sticky_date is not None:
-                self.sticky_date = options.sticky_date
-        if hasattr(options, 'xvfb') and options.noxvfb is not None:
-                self.noxvfb = options.noxvfb
-        if hasattr(options, 'trycheckout') and  options.trycheckout:
-            self.trycheckout = True
-        if hasattr(options, 'nopoison') and options.nopoison:
-            self.nopoison = True
         if hasattr(options, 'quiet') and options.quiet:
             self.quiet_mode = True
         if hasattr(options, 'force_policy') and options.force_policy:
             self.build_policy = 'all'
-        if hasattr(options, 'min_age') and options.min_age:
-            try:
-                self.min_age = time.time() - parse_relative_time(options.min_age)
-            except ValueError:
-                raise FatalError('Failed to parse \'min_age\' relative '
-                                 'time')
-        if (hasattr(options, 'check_sysdeps') and
-            options.check_sysdeps is not None):
-            self.check_sysdeps = options.check_sysdeps
         if hasattr(options, 'arch'):
             self.arch = options.arch
 
