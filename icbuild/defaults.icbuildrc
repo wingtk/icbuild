@@ -38,10 +38,8 @@ top_builddir = '_icbuild'  # If a relative path, prefix will be prepended
 
 checkoutroot = '~/icbuild/checkout/'
 
-xdg_cache_home = os.environ.get('XDG_CACHE_HOME',
-                                os.path.join(os.path.expanduser('~'),
-                                             '.cache'))
-tarballdir = os.path.join(xdg_cache_home, 'icbuild', 'downloads')
+cacheroot = '~/icbuild/cache'
+tarballdir = os.path.expanduser(os.path.join(cacheroot, 'downloads'))
 
 buildroot = None     # if set, packages will be built with srcdir!=builddir
 

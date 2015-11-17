@@ -56,7 +56,7 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'build_targets', 'cmakeargs', 'module_cmakeargs',
                 'print_command_pattern',
                 'help_website', 'conditions', 'extra_prefixes',
-                'xdg_cache_home', 'exit_on_error'
+                'cacheroot', 'exit_on_error'
               ]
 
 env_prepends = {}
