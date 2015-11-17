@@ -1,6 +1,6 @@
 # -*- mode: python -*-
-# This file holds the default values for the ~/.config/icbuildrc file.
-# Do not copy this to ~/.config/icbuildrc
+# This file holds the default values for the ~/icbuild/icbuildrc file.
+# Do not copy this to ~/icbuild/icbuildrc
 
 import os, sys, tempfile
 

@@ -102,7 +102,7 @@ class Config:
             traceback.print_exc()
             raise FatalError('could not load config defaults')
 
-        config_file = os.path.join(os.path.expanduser('~'), 'icbuild', 'icbuildrc')
+        config_file = os.path.expanduser('~/icbuild/icbuildrc')
 
         if filename:
             if not os.path.exists(filename):
