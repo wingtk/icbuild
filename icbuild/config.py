@@ -234,12 +234,6 @@ class Config:
                 raise FatalError(
                         'working directory (%s) can not be created' % self.top_builddir)
 
-        if os.path.exists(os.path.join(self.prefix, 'lib64', 'libglib-2.0.so')):
-            raise FatalError("Your install prefix contains a 'lib64' directory, which is no longer "
-                             "supported by icbuild.  This is likely the result of a previous build with an "
-                             "older version of icbuild or of a broken package.  Please consider removing "
-                             "your install and checkout directories and starting fresh.")
-
     def update_build_targets(self):
         # update build targets according to old flags
         if self.nobuild:
