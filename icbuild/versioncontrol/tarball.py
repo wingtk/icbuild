@@ -198,7 +198,6 @@ class TarballBranch(Branch):
     def _download_tarball(self, buildscript, localfile):
         """Downloads the tarball off the internet, using wget or curl."""
         extra_env = {
-            'LD_LIBRARY_PATH': os.environ.get('UNMANGLED_LD_LIBRARY_PATH'),
             'PATH': os.environ.get('UNMANGLED_PATH')
             }
         lines = [
