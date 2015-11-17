@@ -61,6 +61,10 @@ class cmd_build(BuildCommand):
             make_option('-f', '--force',
                         action='store_true', dest='force_policy', default=False,
                         help='build even if policy says not to'),
+            make_option('-m', '--arch',
+                        action='store', dest='arch', default='Win32',
+                        choices=['Win32', 'x64'],
+                        help='build for a specific architecture'),
             ])
 
     def run(self, config, options, args, help=None):
@@ -111,6 +115,10 @@ class cmd_buildone(BuildCommand):
             make_option('-f', '--force',
                         action='store_true', dest='force_policy', default=False,
                         help='build even if policy says not to'),
+            make_option('-m', '--arch',
+                        action='store', dest='arch', default='Win32',
+                        choices=['Win32', 'x64'],
+                        help='build for a specific architecture'),
             ])
 
     def run(self, config, options, args, help=None):
