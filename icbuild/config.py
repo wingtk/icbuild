@@ -103,37 +103,21 @@ class Config:
             traceback.print_exc()
             raise FatalError('could not load config defaults')
 
-        old_config = os.path.join(os.path.expanduser('~'), '.icbuildrc')
-        new_config = os.path.join \
-                         (os.environ.get \
-                             ('XDG_CONFIG_HOME',
-                              os.path.join(os.path.expanduser('~'), '.config')),
-                          'icbuildrc')
+        config_file = os.path.join(os.path.expanduser('~'), 'icbuild', 'icbuildrc')
 
         if filename:
             if not os.path.exists(filename):
                 raise FatalError('could not load config file, %s is missing' % filename)
         else:
-            if os.path.isfile(old_config) \
-                and not os.path.islink(old_config) \
-                and os.path.isfile(new_config) \
-                and not os.path.islink(new_config):
-                raise FatalError('The default location of the configuration '
-                                 'file has changed. Please move %(old_path)s'
-                                 ' to %(new_path)s.' \
-                                 % {'old_path': old_config,
-                                    'new_path': new_config})
-            if os.path.exists(new_config):
-                filename = new_config
-            elif os.path.exists(old_config):
-                filename = old_config
+            if os.path.exists(config_file):
+                filename = config_file
 
         if filename:
             self._config['__file__'] = filename
             self.filename = filename
         else:
-            self._config['__file__'] = new_config
-            self.filename = new_config
+            self._config['__file__'] = config_file
+            self.filename = config_file
 
         # we might need to redo this process on config reloads, so save these
         self.saved_conditions_modifiers = conditions_modifiers
