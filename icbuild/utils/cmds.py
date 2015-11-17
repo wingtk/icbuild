@@ -233,9 +233,6 @@ def has_command(cmd):
         if os.path.exists(prog):
             return True
 
-        # also check for cmd.exe on Windows
-        if sys.platform.startswith('win') and os.path.exists(prog + ".exe"):
-             return True
     return False
 
 def compare_version(version, minver):
