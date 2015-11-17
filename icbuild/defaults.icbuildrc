@@ -43,6 +43,9 @@ tarballdir = os.path.expanduser(os.path.join(cacheroot, 'downloads'))
 
 buildroot = None     # if set, packages will be built with srcdir!=builddir
 
+# msys2
+msys2dir = 'c:\\msys64'
+
 # When using srcdir!=builddir builds, this key allows you to use a
 # different builddir name.  Some people like this because it reduces
 # the chance of mixing the two up.  In the pattern, '%s' will be

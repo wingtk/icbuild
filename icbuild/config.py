@@ -40,6 +40,7 @@ _defaults_file = os.path.join(os.path.dirname(__file__), 'defaults.icbuildrc')
 
 _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'partial_build', 'checkoutroot', 'buildroot', 'top_builddir',
+                'msys2dir',
                 'makeargs', 'jobs',
                 'repos', 'branches',
                 'builddir_pattern', 'module_autogenargs', 'module_makeargs',
