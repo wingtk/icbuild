@@ -171,9 +171,7 @@ class Config:
 
         for path_key in ('checkoutroot', 'buildroot', 'top_builddir',
                          'tarballdir', 'copy_dir',
-                         'icbuildbot_slaves_dir', 'icbuildbot_dir',
-                         'icbuildbot_mastercfg', 'modulesets_dir',
-                         'dvcs_mirror_dir', 'static_analyzer_outputdir',
+                         'modulesets_dir',
                          'prefix'):
             if config.get(path_key):
                 config[path_key] = os.path.expanduser(config[path_key])
