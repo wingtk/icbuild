@@ -1,7 +1,7 @@
-# jhbuild - a tool to ease building collections of source packages
+# icbuild - a tool to ease building collections of source packages
 # Copyright (C) 2001-2006  James Henstridge
 #
-#   errors.py: definitions of exceptions used by jhbuild modules
+#   errors.py: definitions of exceptions used by icbuild modules
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,35 +18,35 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-class JhbuildException(Exception):
+class IcbuildException(Exception):
     pass
 
 
-class UsageError(JhbuildException):
+class UsageError(IcbuildException):
     '''An exception that should result in a usage message rather than
     a full traceback.'''
 
 
-class ConfigError(JhbuildException):
+class ConfigError(IcbuildException):
     '''A problem in a configuration file.'''
 
 
-class FatalError(JhbuildException):
+class FatalError(IcbuildException):
     '''An error not related to the user input.'''
 
 
-class CommandError(JhbuildException):
+class CommandError(IcbuildException):
     '''An error occurred in an external command.'''
 
     def __init__(self, message, returncode=None):
-        JhbuildException.__init__(self, message)
+        IcbuildException.__init__(self, message)
         self.returncode = returncode
 
-class BuildStateError(JhbuildException):
+class BuildStateError(IcbuildException):
     '''An error occurred while processing a build state.'''
 
 
-class DependencyCycleError(JhbuildException):
+class DependencyCycleError(IcbuildException):
     '''There is a dependency cycle in the module set'''
 
 class UndefinedRepositoryError(FatalError):

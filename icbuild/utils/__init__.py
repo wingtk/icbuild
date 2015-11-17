@@ -1,4 +1,4 @@
-# jhbuild - a tool to ease building collections of source packages
+# icbuild - a tool to ease building collections of source packages
 # Copyright (C) 2001-2004  James Henstridge
 #
 #   __init__.py: module for miscelaneous utility functions
