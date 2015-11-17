@@ -68,7 +68,7 @@ class CacheEntry:
         self.expires = expires
 
 class Cache:
-    cachedir = os.path.join(os.environ['HOME'], '.cache','icbuild')
+    cachedir = os.path.expanduser('~/icbuild/cache')
 
     # default to a 6 hour expiry time.
     default_age = 6 * 60 * 60
