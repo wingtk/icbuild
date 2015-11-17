@@ -130,6 +130,16 @@
     </dependencies>
   </msvc>
 
+  <msvc id="libxml2">
+    <branch repo="hexchat"
+            module="libxml2-2.9.2.tar.gz" version="2.9.2"
+            hash="sha256:5178c30b151d044aefb1b08bf54c3003a0ac55c59c866763997529d60770d5bc">
+    </branch>
+    <dependencies>
+      <dep package="zlib"/>
+    </dependencies>
+  </msvc>
+
   <msvc id="win-iconv">
     <branch repo="hexchat"
             module="win-iconv-0.0.6.tar.bz2" version="0.0.6"
