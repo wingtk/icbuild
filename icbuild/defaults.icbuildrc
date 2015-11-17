@@ -86,7 +86,6 @@ build_targets = ['install','test']
 
 interact      = True   # whether to interact with the user.
 exit_on_error = False  # whether to immediately exit when a build fails, most useful for noninteractive mode
-quiet_mode    = False  # whether to display running commands output
 progress_bar  = True   # whether to display a progress bar when running in quiet mode
 
 # checkout modes. For VCS directories, it specifies how the checkout

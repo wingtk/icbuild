@@ -51,7 +51,6 @@ _known_keys = [ 'moduleset', 'modules', 'skip', 'tags', 'prefix',
                 'checkout_mode',
                 'copy_dir', 'module_checkout_mode', 'build_policy',
                 'min_age',
-                'quiet_mode',
                 'progress_bar', 'module_extra_env',
                 'use_local_modulesets', 'ignore_suggests', 'modulesets_dir',
                 'build_targets', 'cmakeargs', 'module_cmakeargs',
@@ -157,18 +156,17 @@ class Config:
                 traceback.print_exc()
                 raise FatalError('could not load config file')
 
-        if not config.get('quiet_mode'):
-            unknown_keys = []
-            for k in config.keys():
-                if k[0] == '_':
-                    continue
-                if type(config[k]) in (types.ModuleType, types.FunctionType, types.MethodType):
-                    continue
-                unknown_keys.append(k)
-            if unknown_keys:
-                logging.info(
-                        'unknown keys defined in configuration file: %s' % \
-                        ', '.join(unknown_keys))
+        unknown_keys = []
+        for k in config.keys():
+            if k[0] == '_':
+                continue
+            if type(config[k]) in (types.ModuleType, types.FunctionType, types.MethodType):
+                continue
+            unknown_keys.append(k)
+        if unknown_keys:
+            logging.info(
+                    'unknown keys defined in configuration file: %s' % \
+                    ', '.join(unknown_keys))
 
         for path_key in ('checkoutroot', 'buildroot', 'top_builddir',
                          'tarballdir', 'copy_dir',
@@ -256,23 +254,10 @@ class Config:
         if hasattr(options, 'skip'):
             for item in options.skip:
                 self.skip += item.split(',')
-        if hasattr(options, 'quiet') and options.quiet:
-            self.quiet_mode = True
         if hasattr(options, 'force_policy') and options.force_policy:
             self.build_policy = 'all'
         if hasattr(options, 'arch'):
             self.arch = options.arch
-
-    def __setattr__(self, k, v):
-        '''Override __setattr__ for additional checks on some options.'''
-        if k == 'quiet_mode' and v:
-            try:
-                import curses
-                logging.getLogger().setLevel(logging.ERROR)
-            except ImportError:
-                logging.warning(
-                        'quiet mode has been disabled because the Python curses module is missing.')
-                v = False
 
         self.__dict__[k] = v
 

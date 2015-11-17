@@ -57,7 +57,7 @@ class TerminalBuildScript(buildscript.BuildScript):
         else:
             progress = ''
 
-        if not (self.config.quiet_mode and self.config.progress_bar):
+        if not self.config.progress_bar:
             uprint('%s*** %s ***%s%s' % (t_bold, msg, progress, t_reset))
         else:
             progress_percent = 1.0 * (module_num-1) / len(self.modulelist)
@@ -116,26 +116,21 @@ class TerminalBuildScript(buildscript.BuildScript):
         kws['shell'] = True
         print_args['command'] = command
 
-        if not self.config.quiet_mode:
-            if self.config.print_command_pattern:
-                try:
-                    print(self.config.print_command_pattern % print_args)
-                except TypeError as e:
-                    raise FatalError('\'print_command_pattern\' %s' % e)
-                except KeyError as e:
-                    raise FatalError('%(configuration_variable)s invalid key'
-                                     ' %(key)s' % \
-                                     {'configuration_variable' :
-                                          '\'print_command_pattern\'',
-                                      'key' : e})
+        if self.config.print_command_pattern:
+            try:
+                print(self.config.print_command_pattern % print_args)
+            except TypeError as e:
+                raise FatalError('\'print_command_pattern\' %s' % e)
+            except KeyError as e:
+                raise FatalError('%(configuration_variable)s invalid key'
+                                 ' %(key)s' % \
+                                 {'configuration_variable' :
+                                      '\'print_command_pattern\'',
+                                  'key' : e})
 
         kws['stdin'] = subprocess.PIPE
         kws['stdout'] = None
         kws['stderr'] = None
-
-        if self.config.quiet_mode:
-            kws['stdout'] = subprocess.PIPE
-            kws['stderr'] = subprocess.STDOUT
 
         if cwd is not None:
             kws['cwd'] = cwd
@@ -152,23 +147,16 @@ class TerminalBuildScript(buildscript.BuildScript):
             raise CommandError(str(e))
 
         output = []
-        if self.config.quiet_mode:
-            def format_line(line, error_output, output = output):
-                output.append(line)
-            cmds.pprint_output(p, format_line)
-        else:
+        try:
+            p.communicate()
+        except KeyboardInterrupt:
             try:
-                p.communicate()
-            except KeyboardInterrupt:
-                try:
-                    os.kill(p.pid, signal.SIGINT)
-                except OSError:
-                    # process might already be dead.
-                    pass
+                os.kill(p.pid, signal.SIGINT)
+            except OSError:
+                # process might already be dead.
+                pass
         try:
             if p.wait() != 0:
-                if self.config.quiet_mode:
-                    print(''.join(output))
                 raise CommandError('########## Error running %s'
                                    % print_args['command'], p.returncode)
         except OSError:
