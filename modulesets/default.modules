@@ -113,6 +113,13 @@
     </dependencies>
   </msvc>
 
+  <msvc id="libffi">
+    <branch repo="hexchat"
+            module="libffi-3.2.1.tar.gz" version="3.2.1"
+            hash="sha256:d06ebb8e1d9a22d19e38d63fdb83954253f39bedc5d46232a05645685722ca37">
+    </branch>
+  </msvc>
+
   <msvc id="win-iconv">
     <branch repo="hexchat"
             module="win-iconv-0.0.6.tar.bz2" version="0.0.6"
