@@ -29,6 +29,7 @@ import types
 import logging
 
 from icbuild.errors import FatalError
+from jhbuild.environment import setup_env
 
 if sys.platform.startswith('win'):
     # For munging paths for MSYS's benefit
@@ -126,6 +127,8 @@ class Config:
         modify_conditions(self.conditions, conditions_modifiers)
 
         self.create_directories()
+
+        setup_env(self)
 
         self.update_build_targets()
 
