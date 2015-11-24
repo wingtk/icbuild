@@ -120,19 +120,19 @@ def unpack_archive(buildscript, localfile, target_directory, checkoutdir=None):
         target_directory = tempfile.mkdtemp(dir=final_target_directory)
 
     ext = os.path.splitext(localfile)[-1]
-    if ext == '.lzma' and has_command('lzcat') and has_command('tar'):
+    if ext == '.lzma' and has_command('lzcat.exe') and has_command('tar.exe'):
         buildscript.execute('lzcat -d "%s" | tar xf -' % localfile,
                 cwd=target_directory)
-    elif ext == '.xz' and has_command('xzcat') and has_command('tar'):
+    elif ext == '.xz' and has_command('xzcat.exe') and has_command('tar.exe'):
         buildscript.execute('xzcat -d "%s" | tar xf -' % localfile,
                 cwd=target_directory)
-    elif ext == '.bz2' and has_command('bunzip2') and has_command('tar'):
+    elif ext == '.bz2' and has_command('bunzip2.exe') and has_command('tar.exe'):
         buildscript.execute('bunzip2 -dc "%s" | tar xf -' % localfile,
                 cwd=target_directory)
-    elif ext in ('.gz', '.tgz') and has_command('gzip') and has_command('tar'):
+    elif ext in ('.gz', '.tgz') and has_command('gzip.exe') and has_command('tar.exe'):
         buildscript.execute('gzip -dc "%s" | tar xf -' % localfile,
                 cwd=target_directory)
-    elif ext == '.zip' and has_command('unzip'):
+    elif ext == '.zip' and has_command('unzip.exe'):
         buildscript.execute('unzip "%s"' % localfile,
                 cwd=target_directory)
     else:

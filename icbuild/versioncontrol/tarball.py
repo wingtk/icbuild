@@ -201,8 +201,8 @@ class TarballBranch(Branch):
             'PATH': os.environ.get('UNMANGLED_PATH')
             }
         lines = [
-            ['wget', '--continue', self.module, '-O', localfile],
-            ['curl', '--continue-at', '-', '-L', self.module, '-o', localfile]
+            ['wget.exe', '--continue', self.module, '-O', localfile],
+            ['curl.exe', '--continue-at', '-', '-L', self.module, '-o', localfile]
             ]
         lines = [line for line in lines if has_command(line[0])]
         if not lines:
